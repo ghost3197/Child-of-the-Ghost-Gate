@@ -102,4 +102,5 @@ public class Chapter01PlayerMove : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, groundRadius);
     }
+    // test
 }
