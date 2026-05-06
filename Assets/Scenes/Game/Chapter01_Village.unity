@@ -669,8 +669,13 @@ MonoBehaviour:
   - "\uB9C8\uC744 \uBD84\uC704\uAE30\uAC00 \uD3C9\uC18C\uC640 \uB2E4\uB974\uB2E4."
   dialogueUI: {fileID: 0}
   closeDialogueOnExit: 1
+  interactableEnabled: 1
+  onDialogueCompleted:
+    m_PersistentCalls:
+      m_Calls: []
   firstPromptText: E - Talk
   continuePromptText: E - Next
+  closePromptText: E - Close
 --- !u!61 &649046356
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -705,7 +710,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.002045989, y: 0.012275953}
   m_SpriteTilingProperty:
     border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
     pivot: {x: 0.5, y: 0.5}
@@ -715,7 +720,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.18569165, y: 0.19796753}
   m_EdgeRadius: 0
 --- !u!212 &649046357
 SpriteRenderer:
@@ -1066,7 +1071,7 @@ RectTransform:
   m_GameObject: {fileID: 1108650980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.91, y: 0.84, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1404784424}
@@ -1075,7 +1080,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 33.450012, y: 385.84998}
+  m_AnchoredPosition: {x: 4, y: 118}
   m_SizeDelta: {x: 900, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1108650982
@@ -1630,7 +1635,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -306.55, y: -579.15}
+  m_AnchoredPosition: {x: -295, y: -149}
   m_SizeDelta: {x: 220, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1889069678

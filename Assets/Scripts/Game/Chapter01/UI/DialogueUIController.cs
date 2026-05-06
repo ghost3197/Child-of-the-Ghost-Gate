@@ -8,10 +8,19 @@ public class DialogueUIController : MonoBehaviour
     [SerializeField] private Text speakerNameText;
     [SerializeField] private Text dialogueBodyText;
 
+    [Header("Movement Lock")]
+    [SerializeField] private Chapter01PlayerMove playerMovement;
+    [SerializeField] private bool lockPlayerMovementWhileOpen = true;
+
     public bool IsOpen => dialogueRoot != null && dialogueRoot.activeSelf;
 
     private void Awake()
     {
+        if (playerMovement == null)
+        {
+            playerMovement = FindFirstObjectByType<Chapter01PlayerMove>();
+        }
+
         Hide();
     }
 
@@ -24,6 +33,7 @@ public class DialogueUIController : MonoBehaviour
         }
 
         dialogueRoot.SetActive(true);
+        SetPlayerMovementLocked(true);
 
         if (speakerNameText != null)
         {
@@ -41,6 +51,26 @@ public class DialogueUIController : MonoBehaviour
         if (dialogueRoot != null)
         {
             dialogueRoot.SetActive(false);
+        }
+
+        SetPlayerMovementLocked(false);
+    }
+
+    private void SetPlayerMovementLocked(bool locked)
+    {
+        if (!lockPlayerMovementWhileOpen)
+        {
+            return;
+        }
+
+        if (playerMovement == null)
+        {
+            playerMovement = FindFirstObjectByType<Chapter01PlayerMove>();
+        }
+
+        if (playerMovement != null)
+        {
+            playerMovement.SetMovementLocked(locked);
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class InteractionSensor : MonoBehaviour
 {
     [Header("Input")]
-    [SerializeField] private KeyCode interactKey = KeyCode.E;
+    [SerializeField] private KeyCode interactKey = KeyCode.F;
 
     [Header("Prompt UI")]
     [SerializeField] private GameObject promptRoot;

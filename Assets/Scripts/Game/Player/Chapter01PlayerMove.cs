@@ -17,6 +17,10 @@ public class Chapter01PlayerMove : MonoBehaviour
     private float moveInput;
     private bool jumpRequested;
     private bool isGrounded;
+    private bool movementLocked;
+
+    public bool CanMove => !movementLocked;
+    public bool IsMovementLocked => movementLocked;
 
     private void Reset()
     {
@@ -52,6 +56,13 @@ public class Chapter01PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        if (movementLocked)
+        {
+            moveInput = 0f;
+            jumpRequested = false;
+            return;
+        }
+
         moveInput = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -77,6 +88,15 @@ public class Chapter01PlayerMove : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
 
         Vector2 velocity = rb.linearVelocity;
+
+        if (movementLocked)
+        {
+            velocity.x = 0f;
+            jumpRequested = false;
+            rb.linearVelocity = velocity;
+            return;
+        }
+
         velocity.x = moveInput * moveSpeed;
 
         if (jumpRequested)
@@ -90,6 +110,24 @@ public class Chapter01PlayerMove : MonoBehaviour
         }
 
         rb.linearVelocity = velocity;
+    }
+
+    public void SetMovementLocked(bool locked)
+    {
+        movementLocked = locked;
+
+        if (!movementLocked)
+        {
+            return;
+        }
+
+        moveInput = 0f;
+        jumpRequested = false;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+        }
     }
 
     private void OnDrawGizmosSelected()
