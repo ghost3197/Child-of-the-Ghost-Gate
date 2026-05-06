@@ -1,39 +1,37 @@
-using System.Xml.Serialization;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class DialogueTrigger : InteractableBase
 {
-    [Header("Dialogue")]
     [System.Serializable]
     private class DialogueLine
-    { 
+    {
         public string speakerName;
 
         [TextArea(2, 4)]
         public string text;
     }
+
+    [Header("Dialogue")]
     [SerializeField] private DialogueLine[] lines;
     [SerializeField] private DialogueUIController dialogueUI;
     [SerializeField] private bool closeDialogueOnExit = true;
     [SerializeField] private bool interactableEnabled = true;
     [SerializeField] private UnityEvent onDialogueCompleted;
 
+    [Header("Next Line Input")]
     [SerializeField] private KeyCode nextLineKey = KeyCode.Space;
     [SerializeField] private KeyCode alternativeNextLineKey = KeyCode.Return;
 
-    private bool isDialogueActive;
-    private InteractionSensor activeInterractor;
-
     [Header("Prompt Text")]
-    [SerializeField] private string firstPromptText = "E - Talk";
+    [SerializeField] private string firstPromptText = "F - Talk";
     [SerializeField] private string continuePromptText = "Space / Enter - Next";
     [SerializeField] private string closePromptText = "Space / Enter - Close";
 
     private int currentLineIndex;
     private bool hasCompletedOnce;
+    private bool isDialogueActive;
+    private InteractionSensor activeInteractor;
 
     public override string PromptText
     {
@@ -61,6 +59,22 @@ public class DialogueTrigger : InteractableBase
         }
     }
 
+    private void Update()
+    {
+        if (!isDialogueActive)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(nextLineKey) ||
+            Input.GetKeyDown(alternativeNextLineKey) ||
+            Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            ShowNextLineOrClose();
+            activeInteractor?.RefreshPrompt();
+        }
+    }
+
     public override bool CanInteract(InteractionSensor interactor)
     {
         return interactableEnabled && lines != null && lines.Length > 0;
@@ -75,13 +89,13 @@ public class DialogueTrigger : InteractableBase
 
         if (dialogueUI == null)
         {
-            Debug.LogError("[DialogueTrigger] DialogueUIController was not found", this);
+            Debug.LogError("[DialogueTrigger] DialogueUIController was not found.", this);
             return;
         }
 
-        activeInterractor = interactor;
-        StarDilogue();
-        activeInterractor.RefreshPrompt();
+        activeInteractor = interactor;
+        StartDialogue();
+        activeInteractor?.RefreshPrompt();
     }
 
     public override void CancelInteraction(InteractionSensor interactor)
@@ -94,6 +108,32 @@ public class DialogueTrigger : InteractableBase
         ResetDialogue();
     }
 
+    public void SetInteractableEnabled(bool value)
+    {
+        interactableEnabled = value;
+    }
+
+    private void StartDialogue()
+    {
+        isDialogueActive = true;
+        currentLineIndex = 0;
+        ShowNextLineOrClose();
+    }
+
+    private void ShowNextLineOrClose()
+    {
+        if (currentLineIndex >= lines.Length)
+        {
+            CompleteDialogue();
+            ResetDialogue();
+            return;
+        }
+
+        DialogueLine currentLine = lines[currentLineIndex];
+        dialogueUI.ShowLine(currentLine.speakerName, currentLine.text);
+        currentLineIndex++;
+    }
+
     private void ResetDialogue()
     {
         currentLineIndex = 0;
@@ -104,53 +144,8 @@ public class DialogueTrigger : InteractableBase
             dialogueUI.Hide();
         }
 
-        activeInterractor?.RefreshPrompt();
-        activeInterractor = null;
-    }
-
-    public void SetInteractableEnabled(bool value)
-    {
-        interactableEnabled = value;
-    }
-
-    private void Update()
-    {
-        if (!isDialogueActive)
-        {
-            return;
-        }
-
-        if (Input.GetKeyDown(nextLineKey) ||
-            Input.GetKeyDown(alternativeNextLineKey) ||
-            Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            ShowNextLineOrClose();
-            activeInterractor?.RefreshPrompt();
-
-        }
-
-
-    }
-
-    private void StarDilogue()
-    {
-        isDialogueActive = true;
-        currentiLineIndex = 0;
-        ShowNextLineOrClose();
-    }
-
-    private void ShowNextLineClose()
-    {
-        if(currentLineIndex >= lines.Length)
-        {
-            CompleteDialogue();
-            ResetDialogue();
-            return;
-        }
-        DialogueLine currentLine = lines[currentLineIndex];
-
-        dialogueUI.ShowDialogue(currentLine.speakerName, currentLine.text);
-        currentLineIndex++;
+        activeInteractor?.RefreshPrompt();
+        activeInteractor = null;
     }
 
     private void CompleteDialogue()
