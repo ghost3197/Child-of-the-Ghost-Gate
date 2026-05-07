@@ -1,39 +1,37 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class DialogueTrigger : InteractableBase
+public class InspectableObject : InteractableBase
 {
     [Header("Dialogue")]
-    [SerializeField] private DialogueData dialogueData;
-    [SerializeField] private DialogueData.DialogueLine[] lines;
+    [SerializeField] private DialogueData inspectDialogue;
+    [SerializeField] private DialogueData.DialogueLine[] inlineLines;
     [SerializeField] private DialogueUIController dialogueUI;
     [SerializeField] private bool closeDialogueOnExit = true;
-    [SerializeField] private bool interactableEnabled = true;
-    [SerializeField] private bool triggerOnce = false;
-    [SerializeField] private UnityEvent onDialogueCompleted;
 
-    [Header("Next Line Input")]
+    [Header("Inspection")]
+    [SerializeField] private bool inspectOnce = true;
+    [SerializeField] private string firstPromptText = "E - Inspect";
+    [SerializeField] private string continuePromptText = "Space / Enter - Next";
+    [SerializeField] private string closePromptText = "Space / Enter - Close";
     [SerializeField] private KeyCode nextLineKey = KeyCode.Space;
     [SerializeField] private KeyCode alternativeNextLineKey = KeyCode.Return;
 
-    [Header("Prompt Text")]
-    [SerializeField] private string firstPromptText = "E - Talk";
-    [SerializeField] private string continuePromptText = "Space / Enter - Next";
-    [SerializeField] private string closePromptText = "Space / Enter - Close";
+    [Header("Events")]
+    [SerializeField] private UnityEvent onInspected;
 
     private int currentLineIndex;
-    private bool hasCompletedOnce;
     private bool isDialogueActive;
     private InteractionSensor activeInteractor;
     private DialogueData.DialogueLine[] activeLines;
 
-    public bool HasTriggered => hasCompletedOnce;
+    public bool IsInspected { get; private set; }
 
     public override string PromptText
     {
         get
         {
-            if (!interactableEnabled || GetLineCount() == 0)
+            if (GetLineCount() == 0)
             {
                 return string.Empty;
             }
@@ -85,14 +83,12 @@ public class DialogueTrigger : InteractableBase
 
     public override bool CanInteract(InteractionSensor interactor)
     {
-        return interactableEnabled &&
-               (!triggerOnce || !hasCompletedOnce) &&
-               GetLineCount() > 0;
+        return (!inspectOnce || !IsInspected) && GetLineCount() > 0;
     }
 
     public override void Interact(InteractionSensor interactor)
     {
-        if (isDialogueActive || (triggerOnce && hasCompletedOnce))
+        if (isDialogueActive || (inspectOnce && IsInspected))
         {
             return;
         }
@@ -104,7 +100,7 @@ public class DialogueTrigger : InteractableBase
 
         if (dialogueUI == null)
         {
-            Debug.LogError("[DialogueTrigger] DialogueUIController was not found.", this);
+            Debug.LogError("[InspectableObject] DialogueUIController was not found.", this);
             return;
         }
 
@@ -112,12 +108,14 @@ public class DialogueTrigger : InteractableBase
 
         if (activeLines == null || activeLines.Length == 0)
         {
-            Debug.LogWarning("[DialogueTrigger] No dialogue lines were assigned.", this);
+            Debug.LogWarning("[InspectableObject] No dialogue lines were assigned.", this);
             return;
         }
 
         activeInteractor = interactor;
-        StartDialogue();
+        isDialogueActive = true;
+        currentLineIndex = 0;
+        ShowNextLineOrClose();
         activeInteractor?.RefreshPrompt();
     }
 
@@ -131,28 +129,11 @@ public class DialogueTrigger : InteractableBase
         ResetDialogue();
     }
 
-    public void SetInteractableEnabled(bool value)
-    {
-        interactableEnabled = value;
-
-        if (!interactableEnabled && isDialogueActive)
-        {
-            ResetDialogue();
-        }
-    }
-
-    private void StartDialogue()
-    {
-        isDialogueActive = true;
-        currentLineIndex = 0;
-        ShowNextLineOrClose();
-    }
-
     private void ShowNextLineOrClose()
     {
         if (activeLines == null || currentLineIndex >= activeLines.Length)
         {
-            CompleteDialogue();
+            CompleteInspection();
             ResetDialogue();
             return;
         }
@@ -160,6 +141,17 @@ public class DialogueTrigger : InteractableBase
         DialogueData.DialogueLine currentLine = activeLines[currentLineIndex];
         dialogueUI.ShowLine(currentLine.speakerName, currentLine.text);
         currentLineIndex++;
+    }
+
+    private void CompleteInspection()
+    {
+        if (IsInspected)
+        {
+            return;
+        }
+
+        IsInspected = true;
+        onInspected?.Invoke();
     }
 
     private void ResetDialogue()
@@ -177,35 +169,24 @@ public class DialogueTrigger : InteractableBase
         activeInteractor = null;
     }
 
-    private void CompleteDialogue()
-    {
-        if (hasCompletedOnce)
-        {
-            return;
-        }
-
-        hasCompletedOnce = true;
-        onDialogueCompleted?.Invoke();
-    }
-
     private int GetLineCount()
     {
-        if (dialogueData != null && dialogueData.lines != null && dialogueData.lines.Length > 0)
+        if (inspectDialogue != null && inspectDialogue.lines != null && inspectDialogue.lines.Length > 0)
         {
-            return dialogueData.lines.Length;
+            return inspectDialogue.lines.Length;
         }
 
-        return lines != null ? lines.Length : 0;
+        return inlineLines != null ? inlineLines.Length : 0;
     }
 
     private DialogueData.DialogueLine[] ResolveLines()
     {
-        if (dialogueData != null && dialogueData.lines != null && dialogueData.lines.Length > 0)
+        if (inspectDialogue != null && inspectDialogue.lines != null && inspectDialogue.lines.Length > 0)
         {
-            return dialogueData.lines;
+            return inspectDialogue.lines;
         }
 
-        return lines;
+        return inlineLines;
     }
 
     private bool IsTypingLine()
