@@ -5,7 +5,7 @@ public class DoorObject : InteractableBase
 {
     [Header("Door")]
     [SerializeField] private Transform destination;
-    [SerializeField] private string promptText = "E - Open Door";
+    [SerializeField] private string doorPromptText = "E - Open Door";
 
     [Header("Unlock Conditions")]
     [SerializeField] private InspectableObject[] requiredInspections;
@@ -34,7 +34,7 @@ public class DoorObject : InteractableBase
         {
             if (!isLockedDialogueActive)
             {
-                return promptText;
+                return doorPromptText;
             }
 
             if (lockedLines != null && currentLineIndex >= lockedLines.Length && !IsTypingLine())

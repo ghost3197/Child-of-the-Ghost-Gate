@@ -3,9 +3,9 @@ using UnityEngine;
 public abstract class InteractableBase : MonoBehaviour
 {
     [Header("Prompt")]
-    [SerializeField] private string promptText = "E - Interact";
+    [SerializeField] private string defaultPromptText = "E - Interact";
 
-    public virtual string PromptText => promptText;
+    public virtual string PromptText => defaultPromptText;
 
     public virtual bool CanInteract(InteractionSensor interactor)
     {
