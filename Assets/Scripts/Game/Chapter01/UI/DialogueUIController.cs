@@ -18,9 +18,9 @@ public class DialogueUIController : MonoBehaviour
     {
         if (playerMovement == null)
         {
-            playerMovement = FindFirstObjectByType<Chapter01PlayerMove>();
+            //FindFirstObjectByType ¡æ FindAnyObjectByType
+            playerMovement = FindAnyObjectByType<Chapter01PlayerMove>();
         }
-
         Hide();
     }
 
@@ -58,14 +58,12 @@ public class DialogueUIController : MonoBehaviour
 
     private void SetPlayerMovementLocked(bool locked)
     {
-        if (!lockPlayerMovementWhileOpen)
-        {
-            return;
-        }
+        if (!lockPlayerMovementWhileOpen) return;
 
         if (playerMovement == null)
         {
-            playerMovement = FindFirstObjectByType<Chapter01PlayerMove>();
+            //FindFirstObjectByType ¡æ FindAnyObjectByType
+            playerMovement = FindAnyObjectByType<Chapter01PlayerMove>();
         }
 
         if (playerMovement != null)

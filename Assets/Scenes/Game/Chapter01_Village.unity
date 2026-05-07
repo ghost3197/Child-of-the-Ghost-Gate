@@ -297,6 +297,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 362178920}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &252381746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 252381748}
+  - component: {fileID: 252381747}
+  m_Layer: 0
+  m_Name: Chapter01FlowController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &252381747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252381746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae65c21ca56a74f4b9e2e7ecb9478bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Chapter01FlowController
+  initialState: 1
+  currentState: 0
+  fatherDialogue: {fileID: 0}
+  motherDialogue: {fileID: 0}
+  charmObject: {fileID: 0}
+  doorObject: {fileID: 0}
+  outsideTrigger: {fileID: 0}
+--- !u!4 &252381748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252381746}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 821.9809, y: 446.94305, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &262080927
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0964216294979d14aa3dac10752e19e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionSensor
-  interactKey: 101
+  interactKey: 102
   promptRoot: {fileID: 1889069676}
   promptText: {fileID: 262080929}
 --- !u!58 &362178922
@@ -627,7 +678,7 @@ GameObject:
   - component: {fileID: 649046354}
   - component: {fileID: 649046357}
   - component: {fileID: 649046356}
-  - component: {fileID: 649046355}
+  - component: {fileID: 649046358}
   m_Layer: 0
   m_Name: NPC_Father_Test
   m_TagString: Untagged
@@ -650,32 +701,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1563467620}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &649046355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 649046353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1e4e441ebdbfb044b1e888a7cdb588b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
-  promptText: E - Interact
-  speakerName: "\uC544\uBC84\uC9C0"
-  lines:
-  - "\uC624\uB298\uC740 \uC0B0 \uCABD\uC73C\uB85C \uAC00\uC9C0 \uB9C8\uB77C."
-  - "\uB9C8\uC744 \uBD84\uC704\uAE30\uAC00 \uD3C9\uC18C\uC640 \uB2E4\uB974\uB2E4."
-  dialogueUI: {fileID: 0}
-  closeDialogueOnExit: 1
-  interactableEnabled: 1
-  onDialogueCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  firstPromptText: E - Talk
-  continuePromptText: E - Next
-  closePromptText: E - Close
 --- !u!61 &649046356
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -781,6 +806,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &649046358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649046353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e4e441ebdbfb044b1e888a7cdb588b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
+  promptText: F - Interact
+  lines:
+  - speakerName: "\uC544\uBC84\uC9C0"
+    text: "\uC624\uB298\uC740 \uADF8\uB9AC \uB0A0\uC528\uAC00 \uC88B\uC9C0 \uC54A\uAD6C\uB098"
+  - speakerName: "\uBCC4\uD558"
+    text: "\uB70C\uB568!!"
+  - speakerName: "\uC544\uBC84\uC9C0"
+    text: "\uD558...\uACB0\uAD6D \uC774\uB0A0\uC774.."
+  dialogueUI: {fileID: 0}
+  closeDialogueOnExit: 1
+  interactableEnabled: 1
+  onDialogueCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  nextLineKey: 32
+  alternativeNextLineKey: 13
+  firstPromptText: F - Talk
+  continuePromptText: Space / Enter - Next
+  closePromptText: Space / Enter - Close
 --- !u!1 &649869063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,7 +1072,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uD14C\uC2A4\uD2B8 \uB300\uC0AC"
+  m_Text: "\uB300\uC0AC\uAC00 \uC5EC\uAE30\uC5D0 \uD45C\uC2DC\uB429\uB2C8\uB2E4."
 --- !u!222 &1026054668
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1071,7 +1127,7 @@ RectTransform:
   m_GameObject: {fileID: 1108650980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.91, y: 0.84, z: 1}
+  m_LocalScale: {x: 1.3377, y: 1.3103999, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1404784424}
@@ -1080,7 +1136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 4, y: 118}
+  m_AnchoredPosition: {x: 4, y: 155}
   m_SizeDelta: {x: 900, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1108650982
@@ -1293,7 +1349,7 @@ RectTransform:
   m_GameObject: {fileID: 1328650450}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1108650981}
@@ -1320,6 +1376,8 @@ MonoBehaviour:
   dialogueRoot: {fileID: 1108650980}
   speakerNameText: {fileID: 1404784426}
   dialogueBodyText: {fileID: 1026054667}
+  playerMovement: {fileID: 362178916}
+  lockPlayerMovementWhileOpen: 1
 --- !u!1 &1404784423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,7 +1693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -295, y: -149}
+  m_AnchoredPosition: {x: -495, y: -756}
   m_SizeDelta: {x: 220, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1889069678
@@ -1722,3 +1780,4 @@ SceneRoots:
   - {fileID: 362178920}
   - {fileID: 1328650454}
   - {fileID: 1110848160}
+  - {fileID: 252381748}

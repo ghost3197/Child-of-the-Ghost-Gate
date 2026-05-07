@@ -2,31 +2,93 @@ using UnityEngine;
 
 public class Chapter01FlowController : MonoBehaviour
 {
-    [Header("Dialogue Order")]
+    public enum Chapter01State
+    {
+        Intro,
+        TalkToFather,
+        InspectCharm,
+        OpenDoor,
+        GoOutside,
+        Completed,
+    }
+
+    [Header("State")]
+    [SerializeField] private Chapter01State initialState = Chapter01State.TalkToFather;
+    [SerializeField] private Chapter01State currentState = Chapter01State.Intro;
+
+    [Header("Dialogues")]
     [SerializeField] private DialogueTrigger fatherDialogue;
     [SerializeField] private DialogueTrigger motherDialogue;
 
-    private void Awake()
-    {
-        if (fatherDialogue != null)
-        {
-            fatherDialogue.SetInteractableEnabled(true);
-        }
+    [Header("Objects")]
+    [SerializeField] private GameObject charmObject;
+    [SerializeField] private GameObject doorObject;
+    [SerializeField] private GameObject outsideTrigger;
 
-        if (motherDialogue != null)
+    private void Start()
+    {
+        SetState(initialState);
+    }
+
+    private void SetState(Chapter01State nextState)
+    {
+        currentState = nextState;
+        ApplyState();
+    }
+
+    private void ApplyState()
+    {
+        SetObjectActive(charmObject, currentState == Chapter01State.InspectCharm);
+        SetObjectActive(doorObject, currentState == Chapter01State.OpenDoor);
+        SetObjectActive(outsideTrigger, currentState == Chapter01State.GoOutside);
+
+        SetDialogueEnabled(fatherDialogue, currentState == Chapter01State.TalkToFather);
+        SetDialogueEnabled(motherDialogue, false);
+
+        if (currentState == Chapter01State.Intro)
         {
-            motherDialogue.SetInteractableEnabled(false);
+            SetDialogueEnabled(fatherDialogue, true);
         }
+    }
+
+    private void SetObjectActive(GameObject target, bool active)
+    {
+        if (target != null)
+            target.SetActive(active);
+    }
+
+    private void SetDialogueEnabled(DialogueTrigger dialogue, bool enabled)
+    {
+        if (dialogue != null)
+            dialogue.SetInteractableEnabled(enabled);
     }
 
     public void UnlockMotherDialogue()
     {
-        if (motherDialogue == null)
-        {
-            Debug.LogWarning("[Chapter01FlowController] Mother dialogue is not assigned.", this);
-            return;
-        }
+        SetDialogueEnabled(motherDialogue, true);
+    }
 
-        motherDialogue.SetInteractableEnabled(true);
+    public void OnFatherDialogueCompleted()
+    {
+        if (currentState != Chapter01State.TalkToFather) return;
+        SetState(Chapter01State.InspectCharm);
+    }
+
+    public void OnCharmInspected()
+    {
+        if (currentState != Chapter01State.InspectCharm) return;
+        SetState(Chapter01State.OpenDoor);
+    }
+
+    public void OnDoorOpened()
+    {
+        if (currentState != Chapter01State.OpenDoor) return;
+        SetState(Chapter01State.GoOutside);
+    }
+
+    public void OnGoOutside()
+    {
+        if (currentState != Chapter01State.GoOutside) return;
+        SetState(Chapter01State.Completed);
     }
 }

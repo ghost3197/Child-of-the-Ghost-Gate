@@ -55,7 +55,8 @@ public class DialogueTrigger : InteractableBase
     {
         if (dialogueUI == null)
         {
-            dialogueUI = FindFirstObjectByType<DialogueUIController>();
+            // FindFirstObjectByType ¡æ FindAnyObjectByType
+            dialogueUI = FindAnyObjectByType<DialogueUIController>();
         }
     }
 
