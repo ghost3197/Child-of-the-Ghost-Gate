@@ -1048,11 +1048,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Chapter01FlowController
   initialState: 1
   currentState: 0
-  fatherDialogue: {fileID: 0}
+  fatherDialogue: {fileID: 649046355}
   motherDialogue: {fileID: 0}
-  charmObject: {fileID: 0}
-  doorObject: {fileID: 0}
-  outsideTrigger: {fileID: 0}
+  charmObject: {fileID: 2118524313}
+  doorObject: {fileID: 1216481443}
+  outsideTrigger: {fileID: 919574461}
 --- !u!1 &669000229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,6 +1258,114 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &919574461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 919574462}
+  - component: {fileID: 919574464}
+  - component: {fileID: 919574463}
+  m_Layer: 0
+  m_Name: Outside_Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &919574462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919574461}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2076916745}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &919574463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919574461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d398dd92abf4ec4bc712aa1e6091223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckpointTrigger
+  checkpointOverride: {fileID: 0}
+  triggerOnce: 1
+  onCheckpointReached:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 649869066}
+        m_TargetAssemblyTypeName: Chapter01FlowController, Assembly-CSharp
+        m_MethodName: OnGoOutside
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!61 &919574464
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919574461}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1026054666
 GameObject:
   m_ObjectHideFlags: 0
@@ -1543,10 +1651,12 @@ MonoBehaviour:
   defaultPromptText: E - Interact
   destination: {fileID: 329511186}
   doorPromptText: E - Open Door
-  requiredInspections: []
-  requiredDialogues: []
-  lockedDialogue: {fileID: 0}
-  dialogueUI: {fileID: 0}
+  requiredInspections:
+  - {fileID: 2118524315}
+  requiredDialogues:
+  - {fileID: 649046355}
+  lockedDialogue: {fileID: 11400000, guid: 089698394a360f947a73959f7467a375, type: 2}
+  dialogueUI: {fileID: 1328650455}
   closeDialogueOnExit: 1
   nextLineKey: 32
   alternativeNextLineKey: 13
@@ -1554,7 +1664,19 @@ MonoBehaviour:
   lockedClosePromptText: Space / Enter - Close
   onDoorOpened:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 649869066}
+        m_TargetAssemblyTypeName: Chapter01FlowController, Assembly-CSharp
+        m_MethodName: OnDoorOpened
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &1216481446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2172,6 +2294,7 @@ Transform:
   m_Children:
   - {fileID: 2118524314}
   - {fileID: 1216481444}
+  - {fileID: 919574462}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2118524313
