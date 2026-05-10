@@ -42,15 +42,25 @@ public class Chapter01FlowController : MonoBehaviour
         SetObjectActive(doorObject, currentState == Chapter01State.OpenDoor);
         SetObjectActive(outsideTrigger, currentState == Chapter01State.GoOutside);
 
-        SetDialogueEnabled(fatherDialogue, currentState == Chapter01State.TalkToFather);
+        SetDialogueEnabled(fatherDialogue, ShouldKeepFatherDialogueEnabled());
         SetDialogueEnabled(motherDialogue, false);
 
-        if (currentState == Chapter01State.Intro)
-        {
-            SetDialogueEnabled(fatherDialogue, true);
-        }
-
         SetObjectiveForState();
+    }
+
+    private bool ShouldKeepFatherDialogueEnabled()
+    {
+        switch (currentState)
+        {
+            case Chapter01State.Intro:
+            case Chapter01State.TalkToFather:
+            case Chapter01State.InspectCharm:
+            case Chapter01State.OpenDoor:
+                return true;
+
+            default:
+                return false;
+        }
     }
 
     private void SetObjectActive(GameObject target, bool active)

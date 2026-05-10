@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0a3c3854634f6098d96a85aa551b74, type: 3}
   m_Name: Charm_InspectData
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
+  lines:
+  - speakerName: "\uB098"
+    text: "\uBD80\uC801\uC774 \uCC28\uAC11\uB2E4. \uBB38 \uC55E\uC73C\uB85C \uAC00 \uBCF4\uC790."

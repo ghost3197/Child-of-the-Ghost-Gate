@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0a3c3854634f6098d96a85aa551b74, type: 3}
   m_Name: Door_LockedData
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
+  lines:
+  - speakerName: "\uB098"
+    text: "\uC544\uC9C1 \uB098\uAC08 \uC900\uBE44\uAC00 \uB418\uC9C0 \uC54A\uC558\uB2E4."
